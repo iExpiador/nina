@@ -1,0 +1,303 @@
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Valek Space Girl</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  background: url("https://i.imgur.com/WfpeqTr.jpg") no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Quicksand', sans-serif;
+  color: #e6e6e6;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: url("https://i.imgur.com/Fi2uJDn.png"), auto;
+  position: relative;
+}
+
+/* Overlay oscuro */
+#bg-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+}
+
+/* Puntos (efecto nieve) */
+#stars {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  top: -10px;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  border-radius: 50%;
+  opacity: .85;
+  animation: fall linear infinite, twinkle ease-in-out infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-10px) translateX(0); }
+  100% { transform: translateY(110vh) translateX(var(--drift,0px)); }
+}
+@keyframes twinkle {
+  0%,100% { opacity: .9; }
+  50%     { opacity: .3; }
+}
+
+/* Ventanas translúcidas */
+.window {
+  background: rgba(15,15,15,0.45);
+  backdrop-filter: blur(12px) brightness(1.05);
+  -webkit-backdrop-filter: blur(12px) brightness(1.05);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+  font-size: 13px;
+  position: absolute;
+  overflow: hidden;
+  z-index: 2;
+  color: #f2f2f2;
+}
+
+/* === PERFIL === */
+.profile-window { width: 285px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.profile-header {
+  background: rgba(35,35,35,0.6);
+  height: 26px; display: flex; align-items: center; justify-content: center;
+  position: relative; cursor: grab;
+}
+.profile-header::before {
+  content: ""; width: 45px; height: 2px;
+  background: #ccc;
+  border-radius: 10px;
+  position: absolute; top: 12px;
+}
+.profile-content { padding: 12px; }
+.username {
+  font-size: 26px; font-family: 'UnifrakturCook', cursive; margin-bottom: 12px; text-align: center;
+  background: linear-gradient(to right, #fff, #bbb, #333);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 2px;
+}
+.profile-main { display: flex; align-items: flex-start; gap: 12px; }
+.profile-main img {
+  width: 100px; height: 100px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.25);
+  object-fit: cover;
+  flex: 0 0 auto;
+  filter: grayscale(100%) contrast(120%) brightness(90%);
+}
+.profile-info { font-size: 12px; line-height: 1.4; color: #ddd; }
+.profile-info a { color: #f2f2f2; text-decoration: none; font-weight: 600; }
+.profile-info a:hover { text-decoration: underline; }
+.quote { margin-top: 8px; font-style: italic; font-size: 11px; text-align: center; color: #aaa; }
+
+.music-btn {
+  font-size: 18px;
+  color: #f5f5f5;
+  cursor: pointer;
+  margin: 20px auto 10px; /* más arriba */
+  display: block;
+  text-align: center;
+  font-family: 'UnifrakturCook', cursive;
+}
+
+/* Botón flotante MUSICA */
+#music-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Neón blanco permanente */
+    box-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.7),
+        inset 0 0 5px rgba(255, 255, 255, 0.3);
+    /* Latido infinito */
+    animation: pulse 2s infinite ease-in-out;
+    transition: all 0.3s;
+}
+
+/* Animación de pulsación */
+@keyframes pulse {
+    0% { 
+        transform: scale(1);
+        box-shadow: 
+            0 0 10px rgba(255, 255, 255, 0.7),
+            inset 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+    50% { 
+        transform: scale(1.1);
+        box-shadow: 
+            0 0 15px rgba(255, 255, 255, 0.9),
+            inset 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    100% { 
+        transform: scale(1);
+        box-shadow: 
+            0 0 10px rgba(255, 255, 255, 0.7),
+            inset 0 0 5px rgba(255, 255, 255, 0.3);
+    }
+}
+
+/* Efecto al pasar el mouse (brillo intenso blanco) */
+#music-toggle:hover {
+    box-shadow: 
+        0 0 20px rgba(255, 255, 255, 1),
+        inset 0 0 10px rgba(255, 255, 255, 0.7);
+}
+
+/* Efecto al hacer clic (onda expansiva blanca) */
+#music-toggle:active {
+    animation: pulse-click 0.5s;
+}
+
+@keyframes pulse-click {
+    0% { 
+        transform: scale(0.9);
+        box-shadow: 
+            0 0 5px rgba(255, 255, 255, 0.5),
+            inset 0 0 2px rgba(255, 255, 255, 0.2);
+    }
+    50% { 
+        transform: scale(1.15);
+        box-shadow: 
+            0 0 25px rgba(255, 255, 255, 1),
+            inset 0 0 15px rgba(255, 255, 255, 0.8);
+    }
+    100% { 
+        transform: scale(1);
+    }
+}
+</style>
+</head>
+<body>
+
+<div id="bg-overlay"></div>
+<div id="stars"></div> <!-- NIEVE CAYENDO -->
+
+<!-- PERFIL -->
+<div class="window profile-window" id="profileWindow">
+  <div class="profile-header" id="profileHeader"></div>
+  <div class="profile-content">
+    <div class="username">NINA</div>
+    <div class="profile-main">
+      <img src="https://i.imgur.com/4SmVLWJ.gif" alt="icono perfil">
+      <div class="profile-info">
+        User: <b>@Mumukshutva</b> <br>
+        ID: 1530407541<br>
+        <span>• I only like<a href="#"> black cat's</a></span> I dont give a damn about anything else. <br>
+        • Now disappear. ; <span> ♥ <a href="#"></a></span>
+      </div>
+    </div>
+    <div class="quote">“Anyone can start again Not trough love, but through revenge Through the fire, we're born again Peace by vengeance Brings the end”</div>
+  </div>
+  <div class="music-btn" onclick="openMusicPlayer()">♪</div>
+</div>
+
+<!-- Botón flotante (Música) -->
+    <button id="music-toggle">🔇</button>
+    
+    <!-- Reproductor oculto -->
+    <audio id="bg-music" loop>
+        <source src="rolita.mp3" type="audio/mpeg">
+    </audio>
+
+<script>
+/*  EFECTO NIEVE CAYENDO */
+(function makeStars(){
+  const container = document.getElementById('stars');
+  const COUNT = 80; // más cantidad
+  for(let i=0;i<COUNT;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = 1 + Math.random()*2;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random()*100 + 'vw';
+    const duration = 6 + Math.random()*8;
+    const delay = Math.random()*8;
+    s.style.animationDuration = duration + 's, ' + (2 + Math.random()*2) + 's';
+    s.style.animationDelay = delay + 's, ' + (Math.random()*2) + 's';
+    s.style.setProperty('--drift', (Math.random()*40-20) + 'px');
+    container.appendChild(s);
+  }
+})();
+
+</script>
+
+ <script>
+        const music = document.getElementById('bg-music');
+        const toggleBtn = document.getElementById('music-toggle');
+        let isPlaying = false;
+
+        // Intentar autoplay (puede fallar)
+        music.play().then(() => {
+            isPlaying = true;
+            toggleBtn.textContent = '❚❚';
+        }).catch(() => {
+            isPlaying = false;
+            toggleBtn.textContent = '▶';
+        });
+
+        // Control manual
+        toggleBtn.addEventListener('click', () => {
+            isPlaying ? music.pause() : music.play();
+            isPlaying = !isPlaying;
+            toggleBtn.textContent = isPlaying ? '❚❚' : '▶';
+        });
+    </script>
+
+  <script>
+// Bloquear clic derecho
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Bloquear Ctrl+U, Ctrl+S, Ctrl+Shift+I, Ctrl+Shift+J, F12
+document.addEventListener('keydown', event => {
+  if (
+    event.ctrlKey && (
+      event.key === 'u' || 
+      event.key === 's' || 
+      event.key === 'U' || 
+      event.key === 'S'
+    )
+  ) {
+    event.preventDefault();
+  }
+  if (
+    (event.ctrlKey && event.shiftKey && (
+      event.key === 'I' || event.key === 'i' || 
+      event.key === 'J' || event.key === 'j'
+    )) ||
+    event.key === 'F12'
+  ) {
+    event.preventDefault();
+  }
+});
+</script>
+
+</body>
+</html>
